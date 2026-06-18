@@ -190,16 +190,21 @@
     document.getElementById('miFormulario').addEventListener('submit', function(e) {
       e.preventDefault();
 
-      const empresa   = document.getElementById('empresa').value.trim();
+      // Forzamos que 'empresa' lleve el nombre de esta campaña fija
+      const empresa   = "MtCreative"; 
       const contacto  = document.getElementById('contacto').value.trim();
       const telefono  = document.getElementById('telefono').value.trim();
       const ruc       = document.getElementById('ruc').value.trim();
 
+      // Enviamos la información a Google Sheets
       fetch("https://script.google.com/macros/s/AKfycbwLiT839af19JtXyudunB7upyyU1Weti5PbJ3Q1xw_klFWN1odQWfPBLRmyPrr8Fx2nlQ/exec", {
         method: "POST",
-        mode: "no-cors",
+        mode: "no-cors", // Crucial para evitar bloqueos por políticas de origen
+        headers: {
+          "Content-Type": "application/json"
+        },
         body: JSON.stringify({
-          type: "MT_CREATIVE",
+          type: "MT_CREATIVE", // Coincide idéntico con el script e if condicional
           empresa: empresa,
           contacto: contacto,
           telefono: telefono,
@@ -207,7 +212,7 @@
         })
       });
 
-      // 👇 Cambia por TU número (código de país + número, sin + ni espacios)
+      // 👇 Tu configuración de redirección a WhatsApp
       const tuNumero = '593978875975';
 
       let texto = `👤 *Contacto:* ${contacto}\n`;
