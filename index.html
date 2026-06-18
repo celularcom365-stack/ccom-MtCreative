@@ -11,7 +11,7 @@
 
     body {
       min-height: 100vh;
-      background: #FFCC02;
+      background: #16a6d8;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -19,7 +19,7 @@
     }
 
     .card {
-      background: #80388B;
+      background: #0B2739;
       border-radius: 20px;
       padding: 40px 36px;
       width: 100%;
@@ -32,14 +32,14 @@
     }
 
     .logo-area h1 {
-      color: #FFCC02;
+      color: #16a6d8;
       font-size: 22px;
       font-weight: 700;
       line-height: 1.3;
     }
 
     .logo-area p {
-      color: #FFCC02;
+      color: #16a6d8;
       font-size: 13px;
       margin-top: 4px;
       font-weight: 500;
@@ -145,7 +145,7 @@
 
   <div class="card">
     <div class="logo-area">
-      <div><img src="./public/mariposa.png" width="200px"></div>
+      <div><img src="./public/logomovi.png" width="200px"></div>
       <h1>¡Nos interesa conectarte!</h1>
       <p>Completa el formulario y te contactamos</p>
     </div>
@@ -154,9 +154,9 @@
 
     <form id="miFormulario">
 
-      <div class="form-group" style="display: none;">
+      <div class="form-group">
         <label>🏢 Nombre de la Empresa</label>
-        <input type="text" id="empresa" placeholder="Ej: Empresa S.A.">
+        <input type="text" id="empresa" placeholder="Ej: Empresa S.A." required>
       </div>
 
       <div class="form-group">
@@ -170,7 +170,7 @@
       </div>
 
       <div class="form-group">
-        <label>🪪 Cédula <span class="opcional">(opcional)</span></label>
+        <label>🪪 RUC / Cédula <span class="opcional">(opcional)</span></label>
         <input type="text" id="ruc" placeholder="Ej: 1234567890001" pattern="^[0-9]{10}$|^[0-9]{13}$">
       </div>
 
@@ -190,21 +190,15 @@
     document.getElementById('miFormulario').addEventListener('submit', function(e) {
       e.preventDefault();
 
-      // Forzamos que 'empresa' lleve el nombre de esta campaña fija
-      const empresa   = "MtCreative"; 
+      const empresa   = document.getElementById('empresa').value.trim();
       const contacto  = document.getElementById('contacto').value.trim();
       const telefono  = document.getElementById('telefono').value.trim();
       const ruc       = document.getElementById('ruc').value.trim();
 
-      // Enviamos la información a Google Sheets
       fetch("https://script.google.com/macros/s/AKfycbwLiT839af19JtXyudunB7upyyU1Weti5PbJ3Q1xw_klFWN1odQWfPBLRmyPrr8Fx2nlQ/exec", {
         method: "POST",
-        mode: "no-cors", // Crucial para evitar bloqueos por políticas de origen
-        headers: {
-          "Content-Type": "application/json"
-        },
         body: JSON.stringify({
-          type: "MT_CREATIVE", // Coincide idéntico con el script e if condicional
+          type: "MT_CREATIVE",
           empresa: empresa,
           contacto: contacto,
           telefono: telefono,
@@ -212,10 +206,11 @@
         })
       });
 
-      // 👇 Tu configuración de redirección a WhatsApp
-      const tuNumero = '593978875975';
+      // 👇 Cambia por TU número (código de país + número, sin + ni espacios)
+      const tuNumero = 'MT_CREATIVE';
 
-      let texto = `👤 *Contacto:* ${contacto}\n`;
+      let texto = `🏢 *Empresa:* ${empresa}\n`;
+      texto    += `👤 *Contacto:* ${contacto}\n`;
       texto    += `📱 *Teléfono:* ${telefono}\n`;
       if (ruc) texto += `🪪 *RUC/Cédula:* ${ruc}\n`;
       texto    += `\n¡Estamos interesados en sus productos! ✨`;
