@@ -24,6 +24,7 @@
       padding: 40px 36px;
       width: 100%;
       max-width: 460px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
     }
 
     .logo-area {
@@ -36,13 +37,15 @@
       font-size: 22px;
       font-weight: 700;
       line-height: 1.3;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     }
 
     .logo-area p {
-      color: #16a6d8;
-      font-size: 13px;
-      margin-top: 4px;
-      font-weight: 500;
+      color: #FFFFFF; /* Cambiado a blanco para mejor lectura sobre el degradado */
+      font-size: 14px;
+      margin-top: 6px;
+      font-weight: 600;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
     }
 
     .divider {
@@ -64,10 +67,11 @@
       margin-bottom: 6px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
     }
 
     label .opcional {
-      color: #aaa;
+      color: #e0e0e0; /* Un gris más claro para que resalte sobre el fondo */
       font-weight: 400;
       text-transform: none;
       font-size: 12px;
@@ -127,7 +131,8 @@
       text-align: center;
       margin-top: 20px;
       font-size: 12px;
-      color: #90a4ae;
+      color: #0B2739; /* Azul oscuro para que sea perfectamente legible abajo */
+      font-weight: 600;
       line-height: 1.5;
     }
 
@@ -195,8 +200,13 @@
       const telefono  = document.getElementById('telefono').value.trim();
       const ruc       = document.getElementById('ruc').value.trim();
 
+      // Enviamos la información a Google Sheets
       fetch("https://script.google.com/macros/s/AKfycbwLiT839af19JtXyudunB7upyyU1Weti5PbJ3Q1xw_klFWN1odQWfPBLRmyPrr8Fx2nlQ/exec", {
         method: "POST",
+        mode: "no-cors", // Reañadido para saltar restricciones CORS de red
+        headers: {
+          "Content-Type": "application/json"
+        },
         body: JSON.stringify({
           type: "MT_CREATIVE",
           empresa: empresa,
@@ -206,7 +216,7 @@
         })
       });
 
-      // 👇 Cambia por TU número (código de país + número, sin + ni espacios)
+      // 👇 Tu número de destino real configurado
       const tuNumero = '593978875975';
 
       let texto = `🏢 *Empresa:* ${empresa}\n`;
